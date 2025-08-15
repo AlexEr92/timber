@@ -1,4 +1,7 @@
 #include "Clouds.hpp"
+#include "Tree.hpp"
+
+#include <iostream>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -29,6 +32,15 @@ int main() {
     clouds.spawnClouds(3);
 
     sf::Clock clock;
+    // Create a tree
+    Tree tree;
+
+    if (!tree.loadFromFile("assets/graphics/tree.png")) {
+        std::cerr << "Error when loading tree texture" << std::endl;
+        return -1;
+    }
+
+    tree.centerHorizontally(window);
 
     // Main game loop
     while (window.isOpen()) {
@@ -52,6 +64,9 @@ int main() {
         // Draw game scene
         window.draw(backgroundSprite);
         window.draw(clouds);
+
+        // Draw the tree
+        window.draw(tree.getSprite());
 
         // Show everything we just draw
         window.display();
