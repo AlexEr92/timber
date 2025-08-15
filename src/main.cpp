@@ -1,4 +1,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -10,6 +12,14 @@ int main() {
 
     // Create and open a window for the game
     sf::RenderWindow window(vm, "Timber", sf::Style::Default);
+
+    // Create background texture and sprite
+    sf::Texture backgroundTexture;
+    backgroundTexture.loadFromFile("assets/graphics/background.png");
+
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(backgroundTexture);
+    backgroundSprite.setPosition(0, 0);
 
     // Main game loop
     while (window.isOpen()) {
@@ -26,6 +36,7 @@ int main() {
         window.clear();
 
         // Draw game scene
+        window.draw(backgroundSprite);
 
         // Show everything we just draw
         window.display();
