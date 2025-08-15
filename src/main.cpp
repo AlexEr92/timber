@@ -1,3 +1,7 @@
+#include "Tree.hpp"
+
+#include <iostream>
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -21,6 +25,16 @@ int main() {
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0, 0);
 
+    // Create a tree
+    Tree tree;
+
+    if (!tree.loadFromFile("assets/graphics/tree.png")) {
+        std::cerr << "Error when loading tree texture" << std::endl;
+        return -1;
+    }
+
+    tree.centerHorizontally(window);
+
     // Main game loop
     while (window.isOpen()) {
         // Event handling
@@ -37,6 +51,9 @@ int main() {
 
         // Draw game scene
         window.draw(backgroundSprite);
+
+        // Draw the tree
+        window.draw(tree.getSprite());
 
         // Show everything we just draw
         window.display();
