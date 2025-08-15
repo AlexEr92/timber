@@ -6,3 +6,4 @@ AlignTrailingComments: true
 ColumnLimit: 120
 ReflowComments: false
 AlignConsecutiveDeclarations: false
+AccessModifierOffset: -4
