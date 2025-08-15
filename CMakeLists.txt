@@ -38,4 +38,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Copy the "assets" folder to the build directory
-file(COPY assets/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/assets)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets/
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/assets
+)
