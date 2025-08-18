@@ -1,12 +1,13 @@
 #pragma once
 
+#include <string>
+
+#include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-#include <string>
-
-class Tree {
+class Tree : public sf::Drawable {
 public:
     Tree() = default;
 
@@ -16,9 +17,9 @@ public:
 
     void centerHorizontally(const sf::RenderWindow &window, float verticalOffset = 0.f);
 
-    const sf::Sprite &getSprite() const;
-
 private:
     sf::Sprite m_sprite;
     sf::Texture m_texture;
+
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
