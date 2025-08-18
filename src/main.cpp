@@ -1,3 +1,5 @@
+#include "Clouds.hpp"
+
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -21,8 +23,17 @@ int main() {
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0, 0);
 
+    // Create clouds
+    Clouds clouds;
+    clouds.loadTexture("assets/graphics/cloud.png");
+    clouds.spawnClouds(3);
+
+    sf::Clock clock;
+
     // Main game loop
     while (window.isOpen()) {
+        sf::Time dt = clock.restart();
+
         // Event handling
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -32,11 +43,15 @@ int main() {
             }
         }
 
+        // Update clouds position
+        clouds.update(dt.asSeconds());
+
         // Clear everything from the last frame
         window.clear();
 
         // Draw game scene
         window.draw(backgroundSprite);
+        window.draw(clouds);
 
         // Show everything we just draw
         window.display();
