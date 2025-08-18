@@ -26,7 +26,7 @@ int main() {
     // Create clouds
     Clouds clouds;
     clouds.loadTexture("assets/graphics/cloud.png");
-    clouds.spawnClouds(3); // Создаем 3 облака
+    clouds.spawnClouds(3);
 
     sf::Clock clock;
 
@@ -43,14 +43,15 @@ int main() {
             }
         }
 
-        clouds.update(dt.asSeconds()); // Обновление позиций
+        // Update clouds position
+        clouds.update(dt.asSeconds());
 
         // Clear everything from the last frame
         window.clear();
 
         // Draw game scene
         window.draw(backgroundSprite);
-        clouds.draw(window); // Отрисовка
+        window.draw(clouds);
 
         // Show everything we just draw
         window.display();

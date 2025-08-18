@@ -34,10 +34,10 @@ void Clouds::update(float dt) {
     }
 }
 
-void Clouds::draw(sf::RenderWindow &window) const {
+void Clouds::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for (const auto &cloud : m_clouds) {
         if (cloud.isActive) {
-            window.draw(cloud.sprite);
+            target.draw(cloud.sprite, states);
         }
     }
 }
