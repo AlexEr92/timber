@@ -1,10 +1,10 @@
 #include "Tree.hpp"
 
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <stdexcept>
 
-bool Tree::loadFromFile(const std::string& texturePath) {
+#include <SFML/System/Vector2.hpp>
+
+bool Tree::loadFromFile(const std::string &texturePath) {
     if (!m_texture.loadFromFile(texturePath)) {
         return false;
     }
@@ -12,9 +12,7 @@ bool Tree::loadFromFile(const std::string& texturePath) {
     return true;
 }
 
-void Tree::setPosition(float x, float y) {
-    m_sprite.setPosition(x, y);
-}
+void Tree::setPosition(float x, float y) { m_sprite.setPosition(x, y); }
 
 void Tree::centerHorizontally(const sf::RenderWindow &window, float verticalOffset) {
     if (!m_sprite.getTexture()) {
@@ -30,9 +28,9 @@ void Tree::centerHorizontally(const sf::RenderWindow &window, float verticalOffs
     m_sprite.setPosition(x, y);
 }
 
-const sf::Sprite& Tree::getSprite() const {
+void Tree::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if (!m_sprite.getTexture()) {
         throw std::logic_error("Sprite texture not loaded");
     }
-    return m_sprite;
+    target.draw(m_sprite, states);
 }
