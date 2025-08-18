@@ -8,19 +8,24 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+// Static tree object with positioning capability
 class Tree : public sf::Drawable {
 public:
     Tree() = default;
 
+    // Load tree texture
     bool loadFromFile(const std::string &texturePath);
 
+    // Set tree position
     void setPosition(float x, float y);
 
+    // Set tree horizontally in window
     void centerHorizontally(const sf::RenderWindow &window, float verticalOffset = 0.f);
 
 private:
-    sf::Sprite m_sprite;
-    sf::Texture m_texture;
+    sf::Sprite m_sprite;   // Tree sprite
+    sf::Texture m_texture; // Tree texture
 
+    // SFML rendering callback
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
