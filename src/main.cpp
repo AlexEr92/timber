@@ -18,6 +18,8 @@ int main() {
 
     // Create and open a window for the game
     sf::RenderWindow window(vm, "Timber", sf::Style::Default);
+    // Set FPS limit
+    window.setFramerateLimit(60);
 
     // Create background texture and sprite
     sf::Texture backgroundTexture;
