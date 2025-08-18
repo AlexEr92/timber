@@ -20,7 +20,10 @@ int main() {
 
     // Create background texture and sprite
     sf::Texture backgroundTexture;
-    backgroundTexture.loadFromFile("assets/graphics/background.png");
+    if (!backgroundTexture.loadFromFile("assets/graphics/background.png")) {
+        std::cerr << "Error when loading background texture" << std::endl;
+        return -1;
+    }
 
     sf::Sprite backgroundSprite;
     backgroundSprite.setTexture(backgroundTexture);
@@ -28,7 +31,10 @@ int main() {
 
     // Create clouds
     Clouds clouds;
-    clouds.loadTexture("assets/graphics/cloud.png");
+    if (!clouds.loadFromFile("assets/graphics/cloud.png")) {
+        std::cerr << "Error when loading cloud texture" << std::endl;
+        return -1;
+    }
     clouds.spawnClouds(3);
 
     // Create a tree

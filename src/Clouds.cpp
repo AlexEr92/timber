@@ -2,7 +2,7 @@
 
 Clouds::Clouds() : m_randomEngine(std::random_device{}()) {}
 
-bool Clouds::loadTexture(const std::string &filePath) { return m_texture.loadFromFile(filePath); }
+bool Clouds::loadFromFile(const std::string &texturePath) { return m_texture.loadFromFile(texturePath); }
 
 void Clouds::spawnClouds(int count) {
     m_clouds.resize(count);

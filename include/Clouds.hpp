@@ -15,7 +15,7 @@ public:
     Clouds();
 
     // Load cloud texture
-    bool loadTexture(const std::string &filePath);
+    bool loadFromFile(const std::string &texturePath);
 
     // Create cloud sprites
     void spawnClouds(int count);
