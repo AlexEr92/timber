@@ -71,7 +71,7 @@ int main() {
             }
         }
 
-        // Update clouds position
+        // Update game objects position
         clouds.update(dt.asSeconds());
         bee.update(dt.asSeconds());
 
