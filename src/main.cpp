@@ -1,5 +1,6 @@
 #include "Clouds.hpp"
 #include "Tree.hpp"
+#include "Bee.hpp"
 
 #include <iostream>
 
@@ -45,6 +46,14 @@ int main() {
     }
     tree.centerHorizontally(window);
 
+    // Create a bee
+    Bee bee;
+    if (!bee.loadFromFile("assets/graphics/bee.png")) {
+        std::cerr << "Error when loading bee texture" << std::endl;
+        return -1;
+    }
+    bee.setPosition(0, 800);
+
     sf::Clock clock;
 
     // Main game loop
@@ -62,6 +71,7 @@ int main() {
 
         // Update clouds position
         clouds.update(dt.asSeconds());
+        bee.update(dt.asSeconds());
 
         // Clear everything from the last frame
         window.clear();
@@ -70,6 +80,7 @@ int main() {
         window.draw(backgroundSprite);
         window.draw(clouds);
         window.draw(tree);
+        window.draw(bee);
 
         // Show everything we just draw
         window.display();
