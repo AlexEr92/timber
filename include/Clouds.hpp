@@ -8,25 +8,35 @@
 #include <random>
 #include <vector>
 
+// Manages cloud sprites with random movement
 class Clouds : public sf::Drawable {
 public:
     Clouds();
 
+    // Load cloud texture
     bool loadTexture(const std::string &filePath);
+
+    // Create cloud sprites
     void spawnClouds(int count);
+
+    // Update cloud positions
     void update(float dt);
 
 private:
+    // Internal structure representing a single cloud instance
     struct Cloud {
         sf::Sprite sprite;
         float speed;
         bool isActive = false;
     };
 
-    sf::Texture m_texture;
-    std::vector<Cloud> m_clouds;
-    std::mt19937 m_randomEngine;
+    sf::Texture m_texture;       // Cloud texture
+    std::vector<Cloud> m_clouds; // Cloud instances
+    std::mt19937 m_randomEngine; // RNG for cloud properties
 
+    // Reset cloud position/speed
     void resetCloud(Cloud &cloud);
+
+    // SFML rendering callback
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
