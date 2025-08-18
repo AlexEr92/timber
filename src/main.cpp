@@ -1,6 +1,7 @@
-#include "Clouds.hpp"
-#include "Tree.hpp"
 #include "Bee.hpp"
+#include "Clouds.hpp"
+#include "GameUI.hpp"
+#include "Tree.hpp"
 
 #include <iostream>
 
@@ -56,6 +57,17 @@ int main() {
     }
     bee.setPosition(0, 800);
 
+    // Track whether the game is running
+    bool paused = true;
+    // Game score
+    int score = 0;
+
+    GameUI ui;
+    if (!ui.loadFont("assets/fonts/KOMIKAP_.ttf")) {
+        std::cerr << "Error when loading font" << std::endl;
+        return -1;
+    }
+
     sf::Clock clock;
 
     // Main game loop
@@ -69,11 +81,22 @@ int main() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                paused = false;
+                // Reset the time and score
+                score = 0;
+
+                ui.updateScore(score);
+                ui.showMessage(false);
+            }
         }
 
-        // Update game objects position
-        clouds.update(dt.asSeconds());
-        bee.update(dt.asSeconds());
+        if (!paused) {
+            // Update game objects position
+            clouds.update(dt.asSeconds());
+            bee.update(dt.asSeconds());
+        }
 
         // Clear everything from the last frame
         window.clear();
@@ -83,6 +106,7 @@ int main() {
         window.draw(clouds);
         window.draw(tree);
         window.draw(bee);
+        window.draw(ui);
 
         // Show everything we just draw
         window.display();
