@@ -11,6 +11,7 @@
 
 #include "Timebar.hpp"
 
+// Manages and renders all user interface elements for the game
 class GameUI : public sf::Drawable {
 public:
     GameUI();
@@ -39,8 +40,11 @@ public:
     // Reset to initial state
     void reset();
 
-    // Timebar access
-    Timebar &getTimebar() { return m_timebar; }
+    // Check if time is up
+    bool isTimeUp() const { return m_timebar.isTimeUp(); }
+
+    // Update timebar with delta time
+    void updateTimebar(float dt) { m_timebar.update(dt); }
 
     // Configure timebar
     void setupTimebar(float totalTime, float width, float height, const sf::Color &color, const sf::Vector2f &position);

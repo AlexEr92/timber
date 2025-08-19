@@ -12,14 +12,12 @@ void Timebar::setup(float totalTime, float width, float height, const sf::Color 
     setColor(color);
 }
 
-bool Timebar::update(float dt) {
+void Timebar::update(float dt) {
     m_remainingTime -= dt;
     m_remainingTime = std::max(0.0f, m_remainingTime);
 
     float progress = m_remainingTime / m_totalTime;
     m_bar.setSize(sf::Vector2f(m_initialWidth * progress, m_bar.getSize().y));
-
-    return isTimeUp();
 }
 
 bool Timebar::isTimeUp() const { return m_remainingTime <= 0.0f; }

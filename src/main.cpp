@@ -60,8 +60,6 @@ int main() {
 
     // Track whether the game is running
     bool paused = true;
-    // Game score
-    int score = 0;
 
     GameUI ui;
     if (!ui.loadFont("assets/fonts/KOMIKAP_.ttf")) {
@@ -95,11 +93,11 @@ int main() {
             }
         }
 
-
         if (!paused) {
             sf::Time dt = clock.restart();
             // Update timebar
-            if (ui.getTimebar().update(dt.asSeconds())) {
+            ui.updateTimebar(dt.asSeconds());
+            if (ui.isTimeUp()) {
                 paused = true;
                 ui.setMessage("Out of time");
                 ui.showMessage(true);
