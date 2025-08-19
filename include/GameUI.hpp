@@ -21,30 +21,40 @@ public:
     // Update score display
     void updateScore(int newScore);
 
+    // Set score position
     void setScorePosition(float x, float y);
 
+    // Set message text
     void setMessage(const std::string &text);
 
+    // Set message position
     void setMessagePosition(float x, float y);
 
+    // Center message on the game field
     void centerMessage();
 
+    // Show/hide message
     void showMessage(bool show);
 
+    // Reset to initial state
     void reset();
 
+    // Timebar access
     Timebar &getTimebar() { return m_timebar; }
 
+    // Configure timebar
     void setupTimebar(float totalTime, float width, float height, const sf::Color &color, const sf::Vector2f &position);
 
 private:
-    sf::Font m_font;
-    sf::Text m_scoreText;
-    sf::Text m_messageText;
-    bool m_showMessage = true;
-    Timebar m_timebar;
+    sf::Font m_font;           // UI font
+    sf::Text m_scoreText;      // Score text
+    sf::Text m_messageText;    // Message text
+    bool m_showMessage = true; // Current message state
+    Timebar m_timebar;         // Timebar
 
+    // Check if the font is loaded
     bool isFontLoaded() const { return !m_font.getInfo().family.empty(); }
 
+    // SFML rendering callback
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
