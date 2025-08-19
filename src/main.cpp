@@ -71,13 +71,12 @@ int main() {
     ui.setScorePosition(20, 20);
     ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
     ui.centerMessage();
-    ui.getTimebar().setup(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920 / 2 - 200, 980));
+    ui.getTimebar().setup(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
 
     sf::Clock clock;
 
     // Main game loop
     while (window.isOpen()) {
-        sf::Time dt = clock.restart();
 
         // Event handling
         sf::Event event;
@@ -89,22 +88,23 @@ int main() {
 
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 paused = false;
-                // Reset the time and score
-                score = 0;
-
-                ui.updateScore(score);
-                ui.showMessage(false);
-                ui.getTimebar().reset();
+                // Reset UI
+                ui.reset();
+                // Reset game clock
+                clock.restart();
             }
         }
 
-        if (ui.getTimebar().update(dt.asSeconds())) {
-            paused = true;
-            ui.setMessage("Out of time");
-            ui.centerMessage();
-        }
 
         if (!paused) {
+            sf::Time dt = clock.restart();
+            // Update timebar
+            if (ui.getTimebar().update(dt.asSeconds())) {
+                paused = true;
+                ui.setMessage("Out of time");
+                ui.showMessage(true);
+                ui.centerMessage();
+            }
             // Update game objects position
             clouds.update(dt.asSeconds());
             bee.update(dt.asSeconds());
