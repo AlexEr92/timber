@@ -1,12 +1,14 @@
-#include "Clouds.hpp"
-#include "Tree.hpp"
 #include "Bee.hpp"
+#include "Clouds.hpp"
+#include "GameUI.hpp"
+#include "Tree.hpp"
 
 #include <iostream>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -56,11 +58,23 @@ int main() {
     }
     bee.setPosition(0, 800);
 
+    // Track whether the game is running
+    bool paused = true;
+
+    GameUI ui;
+    if (!ui.loadFont("assets/fonts/KOMIKAP_.ttf")) {
+        std::cerr << "Error when loading font" << std::endl;
+        return -1;
+    }
+    ui.setScorePosition(20, 20);
+    ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
+    ui.centerMessage();
+    ui.setupTimebar(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
+
     sf::Clock clock;
 
     // Main game loop
     while (window.isOpen()) {
-        sf::Time dt = clock.restart();
 
         // Event handling
         sf::Event event;
@@ -69,11 +83,30 @@ int main() {
                 (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
                 window.close();
             }
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                paused = false;
+                // Reset UI
+                ui.reset();
+                // Reset game clock
+                clock.restart();
+            }
         }
 
-        // Update game objects position
-        clouds.update(dt.asSeconds());
-        bee.update(dt.asSeconds());
+        if (!paused) {
+            sf::Time dt = clock.restart();
+            // Update timebar
+            ui.updateTimebar(dt.asSeconds());
+            if (ui.isTimeUp()) {
+                paused = true;
+                ui.setMessage("Out of time");
+                ui.showMessage(true);
+                ui.centerMessage();
+            }
+            // Update game objects position
+            clouds.update(dt.asSeconds());
+            bee.update(dt.asSeconds());
+        }
 
         // Clear everything from the last frame
         window.clear();
@@ -83,6 +116,7 @@ int main() {
         window.draw(clouds);
         window.draw(tree);
         window.draw(bee);
+        window.draw(ui);
 
         // Show everything we just draw
         window.display();
