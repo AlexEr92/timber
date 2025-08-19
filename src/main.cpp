@@ -1,4 +1,5 @@
 #include "Bee.hpp"
+#include "Branches.hpp"
 #include "Clouds.hpp"
 #include "GameUI.hpp"
 #include "Tree.hpp"
@@ -58,8 +59,22 @@ int main() {
     }
     bee.setPosition(0, 800);
 
+    // Create branches
+    Branches branches(6);
+    if (!branches.loadFromFile("assets/graphics/branch.png")) {
+        std::cerr << "Error when loading branch texture" << std::endl;
+        return -1;
+    }
+    branches.initSprites();
+
     // Track whether the game is running
     bool paused = true;
+
+    // Control player input
+    bool acceptInput = false;
+
+    // Game score
+    int score = 0;
 
     GameUI ui;
     if (!ui.loadFont("assets/fonts/KOMIKAP_.ttf")) {
@@ -86,11 +101,25 @@ int main() {
 
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 paused = false;
+                acceptInput = true;
+                score = 0;
+                branches.reset();
                 // Reset UI
                 ui.reset();
                 // Reset game clock
                 clock.restart();
             }
+
+            if (acceptInput) {
+                if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
+                    score++;
+                    branches.updateBranches(score);
+                } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
+                    score++;
+                    branches.updateBranches(score);
+                }
+            }
+
         }
 
         if (!paused) {
@@ -99,6 +128,7 @@ int main() {
             ui.updateTimebar(dt.asSeconds());
             if (ui.isTimeUp()) {
                 paused = true;
+                acceptInput = false;
                 ui.setMessage("Out of time");
                 ui.showMessage(true);
                 ui.centerMessage();
@@ -106,6 +136,7 @@ int main() {
             // Update game objects position
             clouds.update(dt.asSeconds());
             bee.update(dt.asSeconds());
+            ui.updateScore(score);
         }
 
         // Clear everything from the last frame
@@ -115,6 +146,7 @@ int main() {
         window.draw(backgroundSprite);
         window.draw(clouds);
         window.draw(tree);
+        window.draw(branches);
         window.draw(bee);
         window.draw(ui);
 
