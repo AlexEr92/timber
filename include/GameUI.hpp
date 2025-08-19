@@ -29,6 +29,8 @@ public:
 
     void showMessage(bool show);
 
+    void reset();
+
     Timebar& getTimebar() { return timebar; }
 
 private:
