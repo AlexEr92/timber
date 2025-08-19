@@ -43,9 +43,16 @@ void GameUI::centerMessage() {
 
 void GameUI::showMessage(bool show) { m_showMessage = show; }
 
+void GameUI::reset() {
+    updateScore(0);
+    showMessage(false);
+    timebar.reset();
+}
+
 void GameUI::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_scoreText, states);
     if (m_showMessage) {
         target.draw(m_messageText, states);
     }
+    target.draw(timebar);
 }
