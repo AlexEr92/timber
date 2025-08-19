@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
@@ -70,6 +71,7 @@ int main() {
     ui.setScorePosition(20, 20);
     ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
     ui.centerMessage();
+    ui.getTimebar().setup(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920 / 2 - 200, 980));
 
     sf::Clock clock;
 
@@ -92,7 +94,14 @@ int main() {
 
                 ui.updateScore(score);
                 ui.showMessage(false);
+                ui.getTimebar().reset();
             }
+        }
+
+        if (ui.getTimebar().update(dt.asSeconds())) {
+            paused = true;
+            ui.setMessage("Out of time");
+            ui.centerMessage();
         }
 
         if (!paused) {

@@ -48,4 +48,5 @@ void GameUI::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if (m_showMessage) {
         target.draw(m_messageText, states);
     }
+    target.draw(timebar);
 }

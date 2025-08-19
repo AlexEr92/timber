@@ -7,6 +7,8 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "Timebar.hpp"
+
 class GameUI : public sf::Drawable {
 public:
     GameUI();
@@ -27,12 +29,16 @@ public:
 
     void showMessage(bool show);
 
+    Timebar& getTimebar() { return timebar; }
+
 private:
     sf::Font m_font;
     sf::Text m_scoreText;
     sf::Text m_messageText;
 
     bool m_showMessage = true;
+
+    Timebar timebar;
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 };
