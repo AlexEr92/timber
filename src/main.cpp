@@ -2,6 +2,7 @@
 #include "Branches.hpp"
 #include "Clouds.hpp"
 #include "GameUI.hpp"
+#include "Player.hpp"
 #include "Tree.hpp"
 
 #include <iostream>
@@ -67,6 +68,13 @@ int main() {
     }
     branches.initSprites();
 
+    // Create player
+    Player player;
+    if (!player.loadFromFile("assets/graphics/player.png")) {
+        std::cerr << "Error when loading player texture" << std::endl;
+        return -1;
+    }
+
     // Track whether the game is running
     bool paused = true;
 
@@ -103,6 +111,7 @@ int main() {
                 paused = false;
                 acceptInput = true;
                 score = 0;
+                player.reset();
                 branches.reset();
                 // Reset UI
                 ui.reset();
@@ -113,13 +122,14 @@ int main() {
             if (acceptInput) {
                 if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
                     score++;
+                    player.setPosition(Side::LEFT);
                     branches.updateBranches(score);
                 } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
                     score++;
+                    player.setPosition(Side::RIGHT);
                     branches.updateBranches(score);
                 }
             }
-
         }
 
         if (!paused) {
@@ -146,6 +156,7 @@ int main() {
         window.draw(backgroundSprite);
         window.draw(clouds);
         window.draw(tree);
+        window.draw(player);
         window.draw(branches);
         window.draw(bee);
         window.draw(ui);
