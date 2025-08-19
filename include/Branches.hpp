@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Side.hpp"
+
 #include <random>
 #include <string>
 #include <vector>
@@ -9,9 +11,6 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
-
-// Where is the branch? Left or Right
-enum class Side { LEFT, RIGHT, NONE };
 
 // Manages branch sprites with random generation
 class Branches : public sf::Drawable {
