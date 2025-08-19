@@ -18,9 +18,12 @@ public:
     void updateScore(int newScore);
 
     void setScorePosition(float x, float y);
-    void setMessagePosition(float x, float y);
 
     void setMessage(const std::string &text);
+
+    void setMessagePosition(float x, float y);
+
+    void centerMessage();
 
     void showMessage(bool show);
 

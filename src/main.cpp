@@ -67,6 +67,9 @@ int main() {
         std::cerr << "Error when loading font" << std::endl;
         return -1;
     }
+    ui.setScorePosition(20, 20);
+    ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
+    ui.centerMessage();
 
     sf::Clock clock;
 
