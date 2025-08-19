@@ -34,7 +34,7 @@ void GameUI::setMessagePosition(float x, float y) { m_messageText.setPosition(x,
 void GameUI::setMessage(const std::string &text) { m_messageText.setString(text); }
 
 void GameUI::centerMessage() {
-    if (m_font.getInfo().family.empty()) {
+    if (!isFontLoaded()) {
         throw std::logic_error("Font not loaded");
     }
     sf::FloatRect bounds = m_messageText.getLocalBounds();
@@ -46,7 +46,7 @@ void GameUI::showMessage(bool show) { m_showMessage = show; }
 void GameUI::reset() {
     updateScore(0);
     showMessage(false);
-    timebar.reset();
+    m_timebar.reset();
 }
 
 void GameUI::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -54,5 +54,10 @@ void GameUI::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if (m_showMessage) {
         target.draw(m_messageText, states);
     }
-    target.draw(timebar);
+    target.draw(m_timebar, states);
 }
+
+void GameUI::setupTimebar(float totalTime, float width, float height, const sf::Color &color, const sf::Vector2f &position) {
+    m_timebar.setup(totalTime, width, height, color, position);
+}
+

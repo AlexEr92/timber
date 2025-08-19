@@ -9,7 +9,6 @@ void Timebar::setup(float totalTime, float width, float height, const sf::Color 
 
     m_bar.setSize(sf::Vector2f(width, height));
     m_bar.setPosition(position);
-    m_bar.setPosition(position);
     setColor(color);
 }
 

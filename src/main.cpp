@@ -71,7 +71,7 @@ int main() {
     ui.setScorePosition(20, 20);
     ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
     ui.centerMessage();
-    ui.getTimebar().setup(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
+    ui.setupTimebar(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
 
     sf::Clock clock;
 
