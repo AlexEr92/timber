@@ -5,6 +5,7 @@
 #include "GameUI.hpp"
 #include "Log.hpp"
 #include "Player.hpp"
+#include "Rip.hpp"
 #include "Tree.hpp"
 
 #include <iostream>
@@ -91,6 +92,13 @@ int main() {
         return -1;
     }
 
+    // Create rip gravestone
+    Rip rip;
+    if (!rip.loadFromFile("assets/graphics/rip.png")) {
+        std::cerr << "Error when loading rip texture" << std::endl;
+        return -1;
+    }
+
     // Track whether the game is running
     bool paused = true;
 
@@ -128,6 +136,7 @@ int main() {
                 acceptInput = true;
                 score = 0;
                 player.reset();
+                rip.hide();
                 branches.reset();
                 // Reset UI
                 ui.reset();
@@ -179,8 +188,9 @@ int main() {
                 paused = true;
                 acceptInput = false;
                 player.hide();
+                rip.show(player.getPosition().x, player.getPosition().y, player.getCurrentSide());
                 log.reset();
-                ui.setMessage("SQUISHED!!!");
+                ui.setMessage("WASTED!!!");
                 ui.showMessage(true);
                 ui.centerMessage();
             }
@@ -197,6 +207,7 @@ int main() {
         window.draw(axe);
         window.draw(branches);
         window.draw(log);
+        window.draw(rip);
         window.draw(bee);
         window.draw(ui);
 
