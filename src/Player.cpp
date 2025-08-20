@@ -19,7 +19,7 @@ void Player::setPosition(Side side) {
         m_sprite.setScale(-1.f, 1.f);
         break;
     case Side::RIGHT:
-        m_sprite.setPosition(1200 + bounds.width/2, 720 + bounds.height/2);
+        m_sprite.setPosition(1200 + bounds.width / 2, 720 + bounds.height / 2);
         m_sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
         m_sprite.setScale(1.f, 1.f);
         break;
@@ -30,18 +30,16 @@ void Player::setPosition(Side side) {
     m_playerSide = side;
 }
 
-Side Player::getCurrentSide() {
-    return m_playerSide;
-}
+const sf::Vector2f &Player::getPosition() const { return m_sprite.getPosition(); }
+
+Side Player::getCurrentSide() { return m_playerSide; }
 
 void Player::reset() {
     setPosition(Side::LEFT);
     m_showPlayer = true;
 }
 
-void Player::hide() {
-    m_showPlayer = false;
-}
+void Player::hide() { m_showPlayer = false; }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     if (m_showPlayer) {
