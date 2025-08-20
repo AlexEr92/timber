@@ -11,12 +11,17 @@ bool Player::loadFromFile(const std::string &texturePath) {
 }
 
 void Player::setPosition(Side side) {
+    sf::FloatRect bounds = m_sprite.getLocalBounds();
     switch (side) {
     case Side::LEFT:
-        m_sprite.setPosition(580, 720);
+        m_sprite.setPosition(580 + bounds.width / 2, 720 + bounds.height / 2);
+        m_sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+        m_sprite.setScale(-1.f, 1.f);
         break;
     case Side::RIGHT:
-        m_sprite.setPosition(1200, 720);
+        m_sprite.setPosition(1200 + bounds.width/2, 720 + bounds.height/2);
+        m_sprite.setOrigin(bounds.width / 2.0f, bounds.height / 2.0f);
+        m_sprite.setScale(1.f, 1.f);
         break;
     default:
         reset();
