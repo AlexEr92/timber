@@ -58,6 +58,11 @@ void Branches::updateBranches(int seed) {
     }
 }
 
+bool Branches::isPlayerSquished(Side playerSide) const {
+    // Check if bottom branch is on the same side as player
+    return m_branchPositions[m_numBranches - 1] == playerSide;
+}
+
 void Branches::reset() {
     for (int i = 0; i < m_numBranches; i++) {
         m_branchPositions[i] = Side::NONE;

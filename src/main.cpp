@@ -173,6 +173,17 @@ int main() {
             bee.update(dt.asSeconds());
             log.update(dt.asSeconds());
             ui.updateScore(score);
+
+            // Check if player is squished
+            if (branches.isPlayerSquished(player.getCurrentSide())) {
+                paused = true;
+                acceptInput = false;
+                player.hide();
+                log.reset();
+                ui.setMessage("SQUISHED!!!");
+                ui.showMessage(true);
+                ui.centerMessage();
+            }
         }
 
         // Clear everything from the last frame

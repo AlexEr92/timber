@@ -20,8 +20,14 @@ public:
     // Set player position
     void setPosition(Side side);
 
+    // Get current position of player
+    Side getCurrentSide();
+
     // Reset player to initial state
     void reset();
+
+    // Hide player
+    void hide();
 
 private:
     sf::Texture m_texture; // Player texture
