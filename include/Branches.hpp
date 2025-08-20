@@ -29,6 +29,9 @@ public:
     // Set branch position based on side
     void setBranchPosition(int index, Side side);
 
+    // Check if player is squished by branch
+    bool isPlayerSquished(Side playerSide) const;
+
     // Reset all branches to NONE
     void reset();
 

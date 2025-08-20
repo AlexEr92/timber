@@ -30,9 +30,17 @@ void Player::setPosition(Side side) {
     m_playerSide = side;
 }
 
+Side Player::getCurrentSide() {
+    return m_playerSide;
+}
+
 void Player::reset() {
     setPosition(Side::LEFT);
     m_showPlayer = true;
+}
+
+void Player::hide() {
+    m_showPlayer = false;
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
