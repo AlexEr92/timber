@@ -3,6 +3,7 @@
 #include "Branches.hpp"
 #include "Clouds.hpp"
 #include "GameUI.hpp"
+#include "Log.hpp"
 #include "Player.hpp"
 #include "Tree.hpp"
 
@@ -83,6 +84,13 @@ int main() {
         return -1;
     }
 
+    // Create flying log
+    Log log;
+    if (!log.loadFromFile("assets/graphics/log.png")) {
+        std::cerr << "Error when loading log texture" << std::endl;
+        return -1;
+    }
+
     // Track whether the game is running
     bool paused = true;
 
@@ -138,11 +146,13 @@ int main() {
                     player.setPosition(Side::LEFT);
                     axe.setPositionBySide(Side::LEFT);
                     branches.updateBranches(score);
+                    log.launch(Side::LEFT);
                 } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
                     score++;
                     player.setPosition(Side::RIGHT);
                     axe.setPositionBySide(Side::RIGHT);
                     branches.updateBranches(score);
+                    log.launch(Side::RIGHT);
                 }
             }
         }
@@ -161,6 +171,7 @@ int main() {
             // Update game objects position
             clouds.update(dt.asSeconds());
             bee.update(dt.asSeconds());
+            log.update(dt.asSeconds());
             ui.updateScore(score);
         }
 
@@ -174,6 +185,7 @@ int main() {
         window.draw(player);
         window.draw(axe);
         window.draw(branches);
+        window.draw(log);
         window.draw(bee);
         window.draw(ui);
 
