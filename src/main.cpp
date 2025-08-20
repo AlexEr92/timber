@@ -1,3 +1,4 @@
+#include "Axe.hpp"
 #include "Bee.hpp"
 #include "Branches.hpp"
 #include "Clouds.hpp"
@@ -75,6 +76,13 @@ int main() {
         return -1;
     }
 
+    // Create axe
+    Axe axe;
+    if (!axe.loadFromFile("assets/graphics/axe.png")) {
+        std::cerr << "Error when loading axe texture" << std::endl;
+        return -1;
+    }
+
     // Track whether the game is running
     bool paused = true;
 
@@ -119,14 +127,21 @@ int main() {
                 clock.restart();
             }
 
+            if (event.type == sf::Event::KeyReleased &&
+                (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)) {
+                axe.hide();
+            }
+
             if (acceptInput) {
                 if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
                     score++;
                     player.setPosition(Side::LEFT);
+                    axe.setPositionBySide(Side::LEFT);
                     branches.updateBranches(score);
                 } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
                     score++;
                     player.setPosition(Side::RIGHT);
+                    axe.setPositionBySide(Side::RIGHT);
                     branches.updateBranches(score);
                 }
             }
@@ -157,6 +172,7 @@ int main() {
         window.draw(clouds);
         window.draw(tree);
         window.draw(player);
+        window.draw(axe);
         window.draw(branches);
         window.draw(bee);
         window.draw(ui);
