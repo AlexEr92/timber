@@ -12,10 +12,7 @@
 // Game bee with random movement behavior
 class Bee : public sf::Drawable {
 public:
-    Bee();
-
-    // Load bee texture
-    bool loadFromFile(const std::string &texturePath);
+    Bee(const std::string &texturePath);
 
     // Set initial bee position
     void setPosition(float x, float y);

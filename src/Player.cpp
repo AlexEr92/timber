@@ -1,13 +1,11 @@
 #include "Player.hpp"
 
-Player::Player() : m_playerSide{Side::LEFT}, m_showPlayer{false} {}
-
-bool Player::loadFromFile(const std::string &texturePath) {
+Player::Player(const std::string &texturePath, Side initialSide) : m_playerSide{initialSide}, m_showPlayer{true} {
     if (!m_texture.loadFromFile(texturePath)) {
-        return false;
+        throw std::runtime_error("Failed to load player texture: " + texturePath);
     }
     m_sprite.setTexture(m_texture);
-    return true;
+    setPosition(initialSide);
 }
 
 void Player::setPosition(Side side) {

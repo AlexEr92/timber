@@ -2,12 +2,12 @@
 
 #include <SFML/System/Vector2.hpp>
 
-bool Log::loadFromFile(const std::string &texturePath) {
+Log::Log(const std::string &texturePath) : m_isActive{false}, m_speedX{0.f}, m_speedY{0.f} {
     if (!m_texture.loadFromFile(texturePath)) {
-        return false;
+        throw std::runtime_error("Failed to load log texture: " + texturePath);
     }
     m_sprite.setTexture(m_texture);
-    return true;
+    reset();
 }
 
 void Log::launch(Side direction) {

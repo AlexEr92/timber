@@ -2,12 +2,12 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-bool Rip::loadFromFile(const std::string &texturePath) {
+Rip::Rip(const std::string &texturePath) : m_isVisible{false} {
     if (!m_texture.loadFromFile(texturePath)) {
-        return false;
+        throw std::runtime_error("Failed to load rip texture: " + texturePath);
     }
     m_sprite.setTexture(m_texture);
-    return true;
+    hide();
 }
 
 void Rip::show(float x, float y, Side side) {

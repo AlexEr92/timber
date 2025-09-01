@@ -5,7 +5,14 @@
 
 #include <SFML/Graphics/Color.hpp>
 
-GameUI::GameUI() {
+GameUI::GameUI(const std::string &fontPath) {
+    if (!m_font.loadFromFile(fontPath)) {
+        throw std::runtime_error("Failed to load font: " + fontPath);
+    }
+
+    m_scoreText.setFont(m_font);
+    m_messageText.setFont(m_font);
+
     m_scoreText.setCharacterSize(100);
     m_scoreText.setFillColor(sf::Color::White);
 
@@ -14,15 +21,6 @@ GameUI::GameUI() {
 
     updateScore(0);
     setMessage("Press Enter to start!");
-}
-
-bool GameUI::loadFont(const std::string &fontPath) {
-    if (!m_font.loadFromFile(fontPath)) {
-        return false;
-    }
-    m_scoreText.setFont(m_font);
-    m_messageText.setFont(m_font);
-    return true;
 }
 
 void GameUI::updateScore(int newScore) { m_scoreText.setString("Score: " + std::to_string(newScore)); }
@@ -57,7 +55,7 @@ void GameUI::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_timebar, states);
 }
 
-void GameUI::setupTimebar(float totalTime, float width, float height, const sf::Color &color, const sf::Vector2f &position) {
+void GameUI::setupTimebar(float totalTime, float width, float height, const sf::Color &color,
+                          const sf::Vector2f &position) {
     m_timebar.setup(totalTime, width, height, color, position);
 }
-

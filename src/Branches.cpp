@@ -1,15 +1,16 @@
 #include "Branches.hpp"
-
 #include <ctime>
+#include <stdexcept>
 
-Branches::Branches(int numBranches) : m_numBranches{numBranches}, m_randomEngine{std::random_device{}()} {
+Branches::Branches(const std::string &texturePath, int numBranches)
+    : m_numBranches{numBranches}, m_randomEngine{std::random_device{}()} {
+    if (!m_texture.loadFromFile(texturePath)) {
+        throw std::runtime_error("Failed to load branches texture: " + texturePath);
+    }
     m_branches.resize(m_numBranches);
     m_branchPositions.resize(m_numBranches, Side::NONE);
-}
 
-bool Branches::loadFromFile(const std::string &texturePath) { return m_texture.loadFromFile(texturePath); }
-
-void Branches::initSprites() {
+    // Initialize sprites
     for (auto &branch : m_branches) {
         branch.setTexture(m_texture);
         branch.setPosition(-2000, -2000);

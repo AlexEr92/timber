@@ -8,6 +8,7 @@
 #include "Rip.hpp"
 #include "Tree.hpp"
 
+#include <exception>
 #include <iostream>
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -39,180 +40,150 @@ int main() {
     backgroundSprite.setTexture(backgroundTexture);
     backgroundSprite.setPosition(0, 0);
 
-    // Create clouds
-    Clouds clouds;
-    if (!clouds.loadFromFile("assets/graphics/cloud.png")) {
-        std::cerr << "Error when loading cloud texture" << std::endl;
-        return -1;
-    }
-    clouds.spawnClouds(3);
+    try {
+        // Create clouds
+        Clouds clouds("assets/graphics/cloud.png");
+        clouds.spawnClouds(3);
 
-    // Create a tree
-    Tree tree;
-    if (!tree.loadFromFile("assets/graphics/tree.png")) {
-        std::cerr << "Error when loading tree texture" << std::endl;
-        return -1;
-    }
-    tree.centerHorizontally(window);
+        // Create a tree
+        Tree tree("assets/graphics/tree.png");
+        tree.centerHorizontally(window);
 
-    // Create a bee
-    Bee bee;
-    if (!bee.loadFromFile("assets/graphics/bee.png")) {
-        std::cerr << "Error when loading bee texture" << std::endl;
-        return -1;
-    }
-    bee.setPosition(0, 800);
+        // Create a bee
+        Bee bee("assets/graphics/bee.png");
+        bee.setPosition(0, 800);
 
-    // Create branches
-    Branches branches(6);
-    if (!branches.loadFromFile("assets/graphics/branch.png")) {
-        std::cerr << "Error when loading branch texture" << std::endl;
-        return -1;
-    }
-    branches.initSprites();
+        // Create branches
+        Branches branches("assets/graphics/branch.png", 6);
 
-    // Create player
-    Player player;
-    if (!player.loadFromFile("assets/graphics/player.png")) {
-        std::cerr << "Error when loading player texture" << std::endl;
-        return -1;
-    }
+        // Create player
+        Player player("assets/graphics/player.png");
 
-    // Create axe
-    Axe axe;
-    if (!axe.loadFromFile("assets/graphics/axe.png")) {
-        std::cerr << "Error when loading axe texture" << std::endl;
-        return -1;
-    }
+        // Create axe
+        Axe axe("assets/graphics/axe.png");
 
-    // Create flying log
-    Log log;
-    if (!log.loadFromFile("assets/graphics/log.png")) {
-        std::cerr << "Error when loading log texture" << std::endl;
-        return -1;
-    }
+        // Create flying log
+        Log log("assets/graphics/log.png");
 
-    // Create rip gravestone
-    Rip rip;
-    if (!rip.loadFromFile("assets/graphics/rip.png")) {
-        std::cerr << "Error when loading rip texture" << std::endl;
-        return -1;
-    }
+        // Create rip gravestone
+        Rip rip("assets/graphics/rip.png");
 
-    // Track whether the game is running
-    bool paused = true;
+        // Create UI
+        GameUI ui("assets/fonts/KOMIKAP_.ttf");
+        ui.setScorePosition(20, 20);
+        ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
+        ui.centerMessage();
+        ui.setupTimebar(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
 
-    // Control player input
-    bool acceptInput = false;
+        // Track whether the game is running
+        bool paused = true;
 
-    // Game score
-    int score = 0;
+        // Control player input
+        bool acceptInput = false;
 
-    GameUI ui;
-    if (!ui.loadFont("assets/fonts/KOMIKAP_.ttf")) {
-        std::cerr << "Error when loading font" << std::endl;
-        return -1;
-    }
-    ui.setScorePosition(20, 20);
-    ui.setMessagePosition(1920 / 2.0f, 1080 / 2.0f);
-    ui.centerMessage();
-    ui.setupTimebar(6.0f, 400.0f, 80.0f, sf::Color::Red, sf::Vector2f(1920.0f / 2 - 200, 980.0f));
+        // Game score
+        int score = 0;
 
-    sf::Clock clock;
+        sf::Clock clock;
 
-    // Main game loop
-    while (window.isOpen()) {
+        // Main game loop
+        while (window.isOpen()) {
 
-        // Event handling
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if ((event.type == sf::Event::Closed) ||
-                (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-                window.close();
-            }
+            // Event handling
+            sf::Event event;
+            while (window.pollEvent(event)) {
+                if ((event.type == sf::Event::Closed) ||
+                    (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+                    window.close();
+                }
 
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-                paused = false;
-                acceptInput = true;
-                score = 0;
-                player.reset();
-                rip.hide();
-                branches.reset();
-                // Reset UI
-                ui.reset();
-                // Reset game clock
-                clock.restart();
-            }
+                if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
+                    paused = false;
+                    acceptInput = true;
+                    score = 0;
+                    player.reset();
+                    rip.hide();
+                    branches.reset();
+                    // Reset UI
+                    ui.reset();
+                    // Reset game clock
+                    clock.restart();
+                }
 
-            if (event.type == sf::Event::KeyReleased &&
-                (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)) {
-                axe.hide();
-            }
+                if (event.type == sf::Event::KeyReleased &&
+                    (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Right)) {
+                    axe.hide();
+                }
 
-            if (acceptInput) {
-                if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
-                    score++;
-                    player.setPosition(Side::LEFT);
-                    axe.setPositionBySide(Side::LEFT);
-                    branches.updateBranches(score);
-                    log.launch(Side::LEFT);
-                } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
-                    score++;
-                    player.setPosition(Side::RIGHT);
-                    axe.setPositionBySide(Side::RIGHT);
-                    branches.updateBranches(score);
-                    log.launch(Side::RIGHT);
+                if (acceptInput) {
+                    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Left) {
+                        score++;
+                        player.setPosition(Side::LEFT);
+                        axe.setPositionBySide(Side::LEFT);
+                        branches.updateBranches(score);
+                        log.launch(Side::LEFT);
+                    } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Right) {
+                        score++;
+                        player.setPosition(Side::RIGHT);
+                        axe.setPositionBySide(Side::RIGHT);
+                        branches.updateBranches(score);
+                        log.launch(Side::RIGHT);
+                    }
                 }
             }
+
+            if (!paused) {
+                sf::Time dt = clock.restart();
+                // Update timebar
+                ui.updateTimebar(dt.asSeconds());
+                if (ui.isTimeUp()) {
+                    paused = true;
+                    acceptInput = false;
+                    ui.setMessage("Out of time");
+                    ui.showMessage(true);
+                    ui.centerMessage();
+                }
+                // Update game objects position
+                clouds.update(dt.asSeconds());
+                bee.update(dt.asSeconds());
+                log.update(dt.asSeconds());
+                ui.updateScore(score);
+
+                // Check if player is squished
+                if (branches.isPlayerSquished(player.getCurrentSide())) {
+                    paused = true;
+                    acceptInput = false;
+                    player.hide();
+                    rip.show(player.getPosition().x, player.getPosition().y, player.getCurrentSide());
+                    log.reset();
+                    ui.setMessage("WASTED!!!");
+                    ui.showMessage(true);
+                    ui.centerMessage();
+                }
+            }
+
+            // Clear everything from the last frame
+            window.clear();
+
+            // Draw game scene
+            window.draw(backgroundSprite);
+            window.draw(clouds);
+            window.draw(tree);
+            window.draw(player);
+            window.draw(axe);
+            window.draw(branches);
+            window.draw(log);
+            window.draw(rip);
+            window.draw(bee);
+            window.draw(ui);
+
+            // Show everything we just draw
+            window.display();
         }
 
-        if (!paused) {
-            sf::Time dt = clock.restart();
-            // Update timebar
-            ui.updateTimebar(dt.asSeconds());
-            if (ui.isTimeUp()) {
-                paused = true;
-                acceptInput = false;
-                ui.setMessage("Out of time");
-                ui.showMessage(true);
-                ui.centerMessage();
-            }
-            // Update game objects position
-            clouds.update(dt.asSeconds());
-            bee.update(dt.asSeconds());
-            log.update(dt.asSeconds());
-            ui.updateScore(score);
-
-            // Check if player is squished
-            if (branches.isPlayerSquished(player.getCurrentSide())) {
-                paused = true;
-                acceptInput = false;
-                player.hide();
-                rip.show(player.getPosition().x, player.getPosition().y, player.getCurrentSide());
-                log.reset();
-                ui.setMessage("WASTED!!!");
-                ui.showMessage(true);
-                ui.centerMessage();
-            }
-        }
-
-        // Clear everything from the last frame
-        window.clear();
-
-        // Draw game scene
-        window.draw(backgroundSprite);
-        window.draw(clouds);
-        window.draw(tree);
-        window.draw(player);
-        window.draw(axe);
-        window.draw(branches);
-        window.draw(log);
-        window.draw(rip);
-        window.draw(bee);
-        window.draw(ui);
-
-        // Show everything we just draw
-        window.display();
+    } catch (const std::exception &e) {
+        std::cerr << "Error during game initialization: " << e.what() << std::endl;
+        return -1;
     }
 
     return 0;

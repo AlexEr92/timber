@@ -1,13 +1,10 @@
 #include "Bee.hpp"
 
-Bee::Bee() : m_speed{0.f}, m_isActive{false}, m_randomEngine{std::random_device{}()} {}
-
-bool Bee::loadFromFile(const std::string &texturePath) {
+Bee::Bee(const std::string &texturePath) : m_speed{0.f}, m_isActive{false}, m_randomEngine{std::random_device{}()} {
     if (!m_texture.loadFromFile(texturePath)) {
-        return false;
+        throw std::runtime_error("Failed to load bee texture: " + texturePath);
     }
     m_sprite.setTexture(m_texture);
-    return true;
 }
 
 void Bee::setPosition(float x, float y) { m_sprite.setPosition(x, y); }

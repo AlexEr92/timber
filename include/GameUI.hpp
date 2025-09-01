@@ -14,10 +14,7 @@
 // Manages and renders all user interface elements for the game
 class GameUI : public sf::Drawable {
 public:
-    GameUI();
-
-    // Load font
-    bool loadFont(const std::string &fontPath);
+    GameUI(const std::string &fontPath);
 
     // Update score display
     void updateScore(int newScore);

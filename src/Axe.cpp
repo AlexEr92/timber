@@ -1,11 +1,10 @@
 #include "Axe.hpp"
 
-bool Axe::loadFromFile(const std::string &texturePath) {
+Axe::Axe(const std::string &texturePath) {
     if (!m_texture.loadFromFile(texturePath)) {
-        return false;
+        throw std::runtime_error("Failed to load axe texture: " + texturePath);
     }
     m_sprite.setTexture(m_texture);
-    return true;
 }
 
 void Axe::setPositionBySide(Side side) {

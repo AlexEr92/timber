@@ -13,10 +13,7 @@
 // Log class for handling the flying log animation and physics
 class Log : public sf::Drawable {
 public:
-    Log() = default;
-
-    // Load log texture
-    bool loadFromFile(const std::string &texturePath);
+    Log(const std::string &texturePath);
 
     // Launch the log in a specific direction based on Side enum
     void launch(Side direction);

@@ -13,10 +13,7 @@
 // Manages cloud sprites with random movement
 class Clouds : public sf::Drawable {
 public:
-    Clouds();
-
-    // Load cloud texture
-    bool loadFromFile(const std::string &texturePath);
+    Clouds(const std::string &texturePath);
 
     // Create cloud sprites
     void spawnClouds(int count);

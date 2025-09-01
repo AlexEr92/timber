@@ -14,10 +14,7 @@
 class Axe : public sf::Drawable {
 
 public:
-    Axe() = default;
-
-    // Load axe texture
-    bool loadFromFile(const std::string &texturePath);
+    Axe(const std::string &texturePath);
 
     // Set axe position based on side
     void setPositionBySide(Side side);

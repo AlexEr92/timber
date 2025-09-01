@@ -1,8 +1,11 @@
 #include "Clouds.hpp"
+#include <stdexcept>
 
-Clouds::Clouds() : m_randomEngine(std::random_device{}()) {}
-
-bool Clouds::loadFromFile(const std::string &texturePath) { return m_texture.loadFromFile(texturePath); }
+Clouds::Clouds(const std::string &texturePath) : m_randomEngine(std::random_device{}()) {
+    if (!m_texture.loadFromFile(texturePath)) {
+        throw std::runtime_error("Failed to load clouds texture: " + texturePath);
+    }
+}
 
 void Clouds::spawnClouds(int count) {
     m_clouds.resize(count);

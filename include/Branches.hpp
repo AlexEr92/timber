@@ -15,13 +15,7 @@
 // Manages branch sprites with random generation
 class Branches : public sf::Drawable {
 public:
-    Branches(int numBranches = 6);
-
-    // Load branch Texture
-    bool loadFromFile(const std::string &texturePath);
-
-    // Initialize brach sprites
-    void initSprites();
+    Branches(const std::string &texturePath, int numBranches = 6);
 
     // Update branches positions
     void updateBranches(int seed);

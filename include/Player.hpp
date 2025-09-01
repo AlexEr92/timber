@@ -13,10 +13,7 @@
 
 class Player : public sf::Drawable {
 public:
-    Player();
-
-    // Load player texture
-    bool loadFromFile(const std::string &texturePath);
+    Player(const std::string &texturePath, Side initialSide = Side::LEFT);
 
     // Set player position
     void setPosition(Side side);

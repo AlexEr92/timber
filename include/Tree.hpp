@@ -11,10 +11,7 @@
 // Static tree object with positioning capability
 class Tree : public sf::Drawable {
 public:
-    Tree() = default;
-
-    // Load tree texture
-    bool loadFromFile(const std::string &texturePath);
+    Tree(const std::string &texturePath);
 
     // Set tree position
     void setPosition(float x, float y);

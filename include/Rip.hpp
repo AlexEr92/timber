@@ -13,10 +13,7 @@
 // Rip class for handling the gravestone visualization
 class Rip : public sf::Drawable {
 public:
-    Rip() = default;
-
-    // Load rip texture
-    bool loadFromFile(const std::string &texturePath);
+    Rip(const std::string &texturePath);
 
     // Show the gravestone at player's death position
     void show(float x, float y, Side side);
